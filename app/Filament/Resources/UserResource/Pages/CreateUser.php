@@ -31,13 +31,12 @@ class CreateUser extends CreateRecord
         }
 
         if ($settings->isMailSettingsConfigured()) {
-            $notification = new VerifyEmail();
+            $notification = new VerifyEmail;
             $notification->url = Filament::getVerifyEmailUrl($user);
 
             $settings->loadMailSettingsToConfig();
 
             $user->notify($notification);
-
 
             Notification::make()
                 ->title(__('resource.user.notifications.verify_sent.title'))

@@ -12,13 +12,13 @@ return new class extends SettingsMigration
         $this->migrator->add('general.site_active', true);
         $this->migrator->add('general.site_favicon', 'sites/logo.ico');
         $this->migrator->add('general.site_theme', [
-            "primary" => "#3150AE",
-            "secondary" => "#3be5e8",
-            "gray" => "#485173",
-            "success" => "#1DCB8A",
-            "danger" => "#ff5467",
-            "info" => "#6E6DD7",
-            "warning" => "#f5de8d",
+            'primary' => '#3150AE',
+            'secondary' => '#3be5e8',
+            'gray' => '#485173',
+            'success' => '#1DCB8A',
+            'danger' => '#ff5467',
+            'info' => '#6E6DD7',
+            'warning' => '#f5de8d',
         ]);
     }
 };

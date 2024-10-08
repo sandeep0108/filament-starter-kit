@@ -14,7 +14,7 @@ class HtmlProvider extends BaseProvider
         for ($i = 0; $i < $numTags; $i++) {
             $tag = $tags[array_rand($tags)];
             $content = $this->generator->words(random_int(3, 10), true);
-            $html .= "<$tag>$content</$tag>";
+            $html .= "<{$tag}>{$content}</{$tag}>";
         }
 
         return $html;

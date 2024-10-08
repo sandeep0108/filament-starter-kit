@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 use Symfony\Component\Uid\Ulid;
 
@@ -17,13 +17,13 @@ class BannersTableSeeder extends Seeder
         for ($i = 0; $i < 10; $i++) {
             $name = $faker->words(3, true);
             DB::table('banner_categories')->insert([
-                'id' => (string) new Ulid(),
+                'id' => (string) new Ulid,
                 'name' => $name,
                 'slug' => Str::slug($name),
                 'description' => $faker->text(200),
                 'is_active' => $faker->boolean(70),
                 'created_at' => $faker->dateTimeThisYear(),
-                'updated_at' => $faker->dateTimeThisYear()
+                'updated_at' => $faker->dateTimeThisYear(),
             ]);
         }
 
@@ -31,7 +31,7 @@ class BannersTableSeeder extends Seeder
 
         for ($i = 0; $i < 12; $i++) {
             DB::table('banners')->insert([
-                'id' => (string) new Ulid(),
+                'id' => (string) new Ulid,
                 'banner_category_id' => $faker->randomElement($bannerCategoryIds),
                 'sort' => $i,
                 'title' => $faker->sentence,

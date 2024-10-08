@@ -12,6 +12,6 @@ class MenuResource extends BaseMenuResource
 
     public static function getNavigationGroup(): ?string
     {
-        return __("menu.nav_group.settings");
+        return __('menu.nav_group.settings');
     }
 }

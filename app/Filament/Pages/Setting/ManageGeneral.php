@@ -11,8 +11,8 @@ use Filament\Notifications\Notification;
 use Filament\Pages\SettingsPage;
 use Filament\Support\Facades\FilamentView;
 use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Facades\Storage;
 use Riodwanto\FilamentAceEditor\AceEditor;
+use Throwable;
 
 use function Filament\Support\is_app_url;
 
@@ -33,27 +33,22 @@ class ManageGeneral extends SettingsPage
 
     public string $twConfigPath = '';
 
+    public static function getNavigationGroup(): ?string
+    {
+        return __('menu.nav_group.settings');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('page.general_settings.navigationLabel');
+    }
+
     public function mount(): void
     {
         $this->themePath = resource_path('css/filament/admin/theme.css');
         $this->twConfigPath = resource_path('css/filament/admin/tailwind.config.js');
 
         $this->fillForm();
-    }
-
-    protected function fillForm(): void
-    {
-        $settings = app(static::getSettings());
-
-        $data = $this->mutateFormDataBeforeFill($settings->toArray());
-
-        $fileService = new FileService;
-
-        $data['theme-editor'] = $fileService->readfile($this->themePath);
-
-        $data['tw-config-editor'] = $fileService->readfile($this->twConfigPath);
-
-        $this->form->fill($data);
     }
 
     public function form(Form $form): Form
@@ -72,8 +67,8 @@ class ManageGeneral extends SettingsPage
                             Forms\Components\Select::make('site_active')
                                 ->label(fn () => __('page.general_settings.fields.site_active'))
                                 ->options([
-                                    0 => "Not Active",
-                                    1 => "Active",
+                                    0 => 'Not Active',
+                                    1 => 'Active',
                                 ])
                                 ->native(false)
                                 ->required(),
@@ -133,8 +128,8 @@ class ManageGeneral extends SettingsPage
                                         ->height('24rem'),
                                     AceEditor::make('tw-config-editor')
                                         ->label('tailwind.config.js')
-                                        ->height('24rem')
-                                ])
+                                        ->height('24rem'),
+                                ]),
                             ]),
                     ])
                     ->persistTabInQueryString()
@@ -164,33 +159,38 @@ class ManageGeneral extends SettingsPage
                 ->send();
 
             $this->redirect(static::getUrl(), navigate: FilamentView::hasSpaMode() && is_app_url(static::getUrl()));
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             throw $th;
         }
     }
 
-    public static function getNavigationGroup(): ?string
-    {
-        return __("menu.nav_group.settings");
-    }
-
-    public static function getNavigationLabel(): string
-    {
-        return __("page.general_settings.navigationLabel");
-    }
-
     public function getTitle(): string|Htmlable
     {
-        return __("page.general_settings.title");
+        return __('page.general_settings.title');
     }
 
     public function getHeading(): string|Htmlable
     {
-        return __("page.general_settings.heading");
+        return __('page.general_settings.heading');
     }
 
     public function getSubheading(): string|Htmlable|null
     {
-        return __("page.general_settings.subheading");
+        return __('page.general_settings.subheading');
+    }
+
+    protected function fillForm(): void
+    {
+        $settings = app(static::getSettings());
+
+        $data = $this->mutateFormDataBeforeFill($settings->toArray());
+
+        $fileService = new FileService;
+
+        $data['theme-editor'] = $fileService->readfile($this->themePath);
+
+        $data['tw-config-editor'] = $fileService->readfile($this->twConfigPath);
+
+        $this->form->fill($data);
     }
 }

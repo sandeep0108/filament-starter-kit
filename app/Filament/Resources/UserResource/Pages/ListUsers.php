@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
-use App\Models\User;
 use Filament\Actions;
 use Filament\Pages\Concerns\ExposesTableToWidgets;
 use Filament\Resources\Components\Tab;
@@ -17,18 +16,6 @@ class ListUsers extends ListRecords
     use HasRecordsList;
 
     protected static string $resource = UserResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
-
-    protected function getHeaderWidgets(): array
-    {
-        return static::$resource::getWidgets();
-    }
 
     public function getTabs(): array
     {
@@ -46,12 +33,24 @@ class ListUsers extends ListRecords
         return $tabs;
     }
 
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return static::$resource::getWidgets();
+    }
+
     protected function getTableQuery(): Builder
     {
         $user = auth()->user();
         $model = (new (static::$resource::getModel()))->with('roles')->where('id', '!=', auth()->user()->id);
 
-        if (!$user->isSuperAdmin()) {
+        if (! $user->isSuperAdmin()) {
             $model = $model->whereDoesntHave('roles', function ($query) {
                 $query->where('name', '=', config('filament-shield.super_admin.name'));
             });

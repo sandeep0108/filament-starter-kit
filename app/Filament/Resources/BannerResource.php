@@ -10,8 +10,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use League\CommonMark\CommonMarkConverter;
 use TomatoPHP\FilamentMediaManager\Form\MediaManagerInput;
@@ -23,11 +23,6 @@ class BannerResource extends Resource
 
     protected static ?int $navigationSort = -1;
     protected static ?string $navigationIcon = 'fluentui-image-shadow-24';
-
-    protected static function getLastSortValue(): int
-    {
-        return Banner::max('sort') ?? 0;
-    }
 
     public static function form(Form $form): Form
     {
@@ -51,8 +46,8 @@ class BannerResource extends Resource
                                             ->label('Is Visible')
                                             ->default(1)
                                             ->options([
-                                                0 => "No",
-                                                1 => "Yes",
+                                                0 => 'No',
+                                                1 => 'Yes',
                                             ])
                                             ->native(false)
                                             ->required(),
@@ -124,7 +119,7 @@ class BannerResource extends Resource
                                                 '_blank' => 'New Tab',
                                                 '_self' => 'Current Tab',
                                                 '_parent' => 'Parent Frame',
-                                                '_top' => 'Full Body of the Window'
+                                                '_top' => 'Full Body of the Window',
                                             ])
                                             ->native(false),
                                     ])
@@ -143,7 +138,7 @@ class BannerResource extends Resource
                     ->collection('images')
                     ->wrap(),
                 Tables\Columns\TextColumn::make('title')
-                    ->description(fn(Model $record): string => strip_tags((new CommonMarkConverter())->convert($record->description)->getContent()))
+                    ->description(fn (Model $record): string => strip_tags((new CommonMarkConverter)->convert($record->description)->getContent()))
                     ->lineClamp(2)
                     ->wrap()
                     ->searchable()
@@ -187,7 +182,7 @@ class BannerResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query
-                            ->when($data['start_date'] ?? null, fn($query, $date) => $query->whereDate('start_date', '>=', $date));
+                            ->when($data['start_date'] ?? null, fn ($query, $date) => $query->whereDate('start_date', '>=', $date));
                     }),
                 Tables\Filters\Filter::make('end_date')
                     ->form([
@@ -195,7 +190,7 @@ class BannerResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query
-                            ->when($data['end_date'] ?? null, fn($query, $date) => $query->whereDate('end_date', '<=', $date));
+                            ->when($data['end_date'] ?? null, fn ($query, $date) => $query->whereDate('end_date', '<=', $date));
                     }),
             ])
             ->actions([
@@ -211,7 +206,6 @@ class BannerResource extends Resource
             ->defaultSort('sort', 'asc')
             ->reorderable('sort');
     }
-
 
     public static function getRelations(): array
     {
@@ -253,6 +247,11 @@ class BannerResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __("menu.nav_group.banner");
+        return __('menu.nav_group.banner');
+    }
+
+    protected static function getLastSortValue(): int
+    {
+        return Banner::max('sort') ?? 0;
     }
 }

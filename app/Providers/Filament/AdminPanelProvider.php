@@ -15,6 +15,7 @@ use Filament\Navigation;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -38,8 +39,8 @@ class AdminPanelProvider extends PanelProvider
             ->emailVerification(EmailVerification::class)
             ->favicon(fn (GeneralSettings $settings) => Storage::url($settings->site_favicon))
             ->brandName(fn (GeneralSettings $settings) => $settings->brand_name)
-            ->brandLogo(fn (GeneralSettings $settings) => Storage::url($settings->brand_logo))
-            ->brandLogoHeight(fn (GeneralSettings $settings) => $settings->brand_logoHeight)
+            // ->brandLogo(fn (GeneralSettings $settings) => Storage::url($settings->brand_logo))
+            // ->brandLogoHeight(fn (GeneralSettings $settings) => $settings->brand_logoHeight)
             ->colors(fn (GeneralSettings $settings) => $settings->site_theme)
             ->databaseNotifications()->databaseNotificationsPolling('30s')
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
@@ -60,8 +61,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationItems([
                 Navigation\NavigationItem::make('Log Viewer') // !! To-Do: lang
-                    ->visible(fn(): bool => auth()->user()->can('access_log_viewer'))
-                    ->url(config('app.url').'/'.config('log-viewer.route_path'), shouldOpenInNewTab: true)
+                    ->visible(fn (): bool => auth()->user()->can('access_log_viewer'))
+                    ->url(config('app.url') . '/' . config('log-viewer.route_path'), shouldOpenInNewTab: true)
                     ->icon('fluentui-document-bullet-list-multiple-20-o')
                     ->group(__('menu.nav_group.activities'))
                     ->sort(99),
@@ -69,7 +70,7 @@ class AdminPanelProvider extends PanelProvider
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->resources([
-                config('filament-logger.activity_resource')
+                config('filament-logger.activity_resource'),
             ])
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -100,7 +101,7 @@ class AdminPanelProvider extends PanelProvider
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
                     ->gridColumns([
                         'default' => 2,
-                        'sm' => 1
+                        'sm' => 1,
                     ])
                     ->sectionColumnSpan(1)
                     ->checkboxListColumns([
@@ -134,8 +135,9 @@ class AdminPanelProvider extends PanelProvider
                             ->description('Default menus')
                             ->collapsed(true)
                             ->collapsible(true)
-                            ->paginate(perPage: 5, condition: true)
-                    ])
-            ]);
+                            ->paginate(perPage: 5, condition: true),
+                    ]),
+            ])->maxContentWidth(MaxWidth::Full);
+
     }
 }

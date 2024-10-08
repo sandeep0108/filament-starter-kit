@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Symfony\Component\Uid\Ulid;
-use Faker\Factory as Faker;
 
 class BlogCategoriesTableSeeder extends Seeder
 {
@@ -22,7 +22,7 @@ class BlogCategoriesTableSeeder extends Seeder
         foreach (range(1, 6) as $index) {
             $name = $faker->words(3, true);
             DB::table('blog_categories')->insert([
-                'id' => (string) new Ulid(),
+                'id' => (string) new Ulid,
                 'name' => $name,
                 'slug' => Str::slug($name),
                 'description' => $faker->optional()->sentence($nbWords = 6, $variableNbWords = true),

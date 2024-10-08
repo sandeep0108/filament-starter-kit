@@ -28,7 +28,7 @@ class Login extends BasePage
             ]);
     }
 
-    public function getHeading(): string | Htmlable
+    public function getHeading(): string|Htmlable
     {
         return '';
     }

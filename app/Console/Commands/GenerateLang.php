@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Stichoza\GoogleTranslate\GoogleTranslate;
@@ -19,15 +20,17 @@ class GenerateLang extends Command
         $onlyJson = $this->option('json');
         $sourcePath = "lang/{$from}";
 
-        if (!$onlyJson && !File::isDirectory($sourcePath)) {
+        if (! $onlyJson && ! File::isDirectory($sourcePath)) {
             $this->error("The source language directory does not exist: {$sourcePath}");
+
             return;
         }
 
         if ($onlyJson) {
             $sourcePath = "lang/{$from}.json";
-            if (!File::isFile($sourcePath)) {
+            if (! File::isFile($sourcePath)) {
                 $this->error("The source language json file does not exist: {$sourcePath}");
+
                 return;
             }
         }
@@ -41,6 +44,22 @@ class GenerateLang extends Command
         $this->info("\n\n All files have been translated. \n");
     }
 
+    public function translateUsingGoogleTranslate($content, string $source, string $target)
+    {
+        try {
+            // Use Stichoza\GoogleTranslate\GoogleTranslate for translation
+            $tr = new GoogleTranslate;
+            $tr->setSource($source);
+            $tr->setTarget($target);
+
+            return $tr->translate($content);
+        } catch (Exception $e) {
+            $this->error('Failed to translate text: ' . $e->getMessage());
+
+            return $content; // Return original text if translation fails
+        }
+    }
+
     protected function processJsonFile(string $sourceFile, string $from, array|string $targets): void
     {
         foreach ($targets as $to) {
@@ -49,7 +68,7 @@ class GenerateLang extends Command
             $translations = json_decode(File::get($sourceFile), true, 512, JSON_THROW_ON_ERROR);
 
             $bar = $this->output->createProgressBar(count($translations));
-            $bar->setFormat(" %current%/%max% [%bar%] %percent:3s%% -- %message%");
+            $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%% -- %message%');
             $bar->setMessage('Initializing...');
             $bar->start();
 
@@ -63,7 +82,7 @@ class GenerateLang extends Command
             $outputContent = json_encode($translated, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             File::put($targetPath, $outputContent);
 
-            $bar->setMessage("✅");
+            $bar->setMessage('✅');
         }
 
         $bar->finish();
@@ -74,8 +93,9 @@ class GenerateLang extends Command
         $filesToProcess = [];
         if ($specificFile) {
             $filePath = $sourcePath . '/' . $specificFile;
-            if (!File::exists($filePath)) {
+            if (! File::exists($filePath)) {
                 $this->error("The specified file does not exist: {$filePath}");
+
                 return;
             }
             $filesToProcess[] = ['path' => $filePath, 'relativePathname' => $specificFile];
@@ -89,7 +109,7 @@ class GenerateLang extends Command
             $this->info("\n\n 🔔 Translate to '{$to}'");
 
             $bar = $this->output->createProgressBar(count($filesToProcess));
-            $bar->setFormat(" %current%/%max% [%bar%] %percent:3s%% -- %message%");
+            $bar->setFormat(' %current%/%max% [%bar%] %percent:3s%% -- %message%');
             $bar->setMessage('Initializing...');
             $bar->start();
 
@@ -103,7 +123,7 @@ class GenerateLang extends Command
                 $translated = $this->translateArray($translations, $from, $to);
 
                 $targetPath = "lang/{$to}/" . dirname($filePath);
-                if (!File::isDirectory($targetPath)) {
+                if (! File::isDirectory($targetPath)) {
                     File::makeDirectory($targetPath, 0755, true, true);
                 }
 
@@ -113,7 +133,7 @@ class GenerateLang extends Command
 
                 $bar->advance();
 
-                $bar->setMessage("✅");
+                $bar->setMessage('✅');
             }
 
             $bar->finish();
@@ -127,26 +147,13 @@ class GenerateLang extends Command
                 $content[$key] = $this->translateArray($value, $source, $target);
                 $bar?->advance();
             }
+
             return $content;
-        } else if ($content === '' || $content === null) {
-            $this->error("Translation value missing, make sure all translation values are not empty, in the source file!");
+        } elseif ($content === '' || $content === null) {
+            $this->error('Translation value missing, make sure all translation values are not empty, in the source file!');
             exit();
         } else {
             return $this->translateUsingGoogleTranslate($content, $source, $target);
-        }
-    }
-
-    public function translateUsingGoogleTranslate($content, string $source, string $target)
-    {
-        try {
-            // Use Stichoza\GoogleTranslate\GoogleTranslate for translation
-            $tr = new GoogleTranslate();
-            $tr->setSource($source);
-            $tr->setTarget($target);
-            return $tr->translate($content);
-        } catch (\Exception $e) {
-            $this->error("Failed to translate text: " . $e->getMessage());
-            return $content; // Return original text if translation fails
         }
     }
 
@@ -156,22 +163,22 @@ class GenerateLang extends Command
         $entries = [];
 
         foreach ($array as $key => $value) {
-            $entryKey = is_string($key) ? "'$key'" : $key;
+            $entryKey = is_string($key) ? "'{$key}'" : $key;
             if (is_array($value)) {
                 $entryValue = $this->arrayToString($value, $indentLevel + 1);
-                $entries[] = "$indent$entryKey => $entryValue";
+                $entries[] = "{$indent}{$entryKey} => {$entryValue}";
             } else {
                 $entryValue = is_string($value) ? "'" . addcslashes($value, "'") . "'" : $value;
-                $entries[] = "$indent$entryKey => $entryValue";
+                $entries[] = "{$indent}{$entryKey} => {$entryValue}";
             }
         }
 
         $glue = ",\n";
         $body = implode($glue, $entries);
         if ($indentLevel > 1) {
-            return "[\n$body,\n" . str_repeat('    ', $indentLevel - 1) . ']';
+            return "[\n{$body},\n" . str_repeat('    ', $indentLevel - 1) . ']';
         } else {
-            return "[\n$body\n$indent]";
+            return "[\n{$body}\n{$indent}]";
         }
     }
 }

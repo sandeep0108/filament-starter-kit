@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Filament\Tables\Table;
 use Filament\Support\Facades\FilamentView;
+use Filament\Tables\Table;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\ServiceProvider;
@@ -36,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         // # \Opcodes\LogViewer
         LogViewer::auth(function ($request) {
             $role = auth()?->user()?->roles?->first()->name;
+
             return $role == config('filament-shield.super_admin.name');
         });
 

@@ -8,8 +8,8 @@ use Filament\Forms;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Support;
 use Filament\Support\Enums\Alignment;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\HtmlString;
 use JoseEspinal\RecordNavigation\Traits\HasRecordNavigation;
 
@@ -19,57 +19,6 @@ class EditUser extends EditRecord
 
     protected static string $resource = UserResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        $actions = [
-            Actions\ActionGroup::make([
-                Actions\EditAction::make()
-                    ->label('Change password')
-                    ->form([
-                        Forms\Components\TextInput::make('password')
-                            ->password()
-                            ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
-                            ->dehydrated(fn(?string $state): bool => filled($state))
-                            ->revealable()
-                            ->required(),
-                        Forms\Components\TextInput::make('passwordConfirmation')
-                            ->password()
-                            ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
-                            ->dehydrated(fn(?string $state): bool => filled($state))
-                            ->revealable()
-                            ->same('password')
-                            ->required(),
-                    ])
-                    ->modalWidth(Support\Enums\MaxWidth::Medium)
-                    ->modalHeading('Update Password')
-                    ->modalDescription(fn($record) => $record->email)
-                    ->modalAlignment(Alignment::Center)
-                    ->modalCloseButton(false)
-                    ->modalSubmitActionLabel('Submit')
-                    ->modalCancelActionLabel('Cancel'),
-
-                Actions\DeleteAction::make()
-                    ->extraAttributes(["class" => "border-b"]),
-
-                Actions\CreateAction::make()
-                    ->label('Create new user')
-                    ->url(fn(): string => static::$resource::getNavigationUrl() . '/create'),
-            ])
-            ->icon('heroicon-m-ellipsis-horizontal')
-            ->hiddenLabel()
-            ->button()
-            ->tooltip('More Actions')
-            ->color('gray')
-        ];
-
-        return array_merge($this->getNavigationActions(), $actions);
-    }
-
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
-
     public function getTitle(): string|Htmlable
     {
         $title = $this->record->name;
@@ -77,8 +26,8 @@ class EditUser extends EditRecord
 
         return new HtmlString("
             <div class='flex items-center space-x-2'>
-                <div>$title</div>
-                $badge
+                <div>{$title}</div>
+                {$badge}
             </div>
         ");
     }
@@ -92,5 +41,56 @@ class EditUser extends EditRecord
         }
 
         return $badge;
+    }
+
+    protected function getHeaderActions(): array
+    {
+        $actions = [
+            Actions\ActionGroup::make([
+                Actions\EditAction::make()
+                    ->label('Change password')
+                    ->form([
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                            ->dehydrated(fn (?string $state): bool => filled($state))
+                            ->revealable()
+                            ->required(),
+                        Forms\Components\TextInput::make('passwordConfirmation')
+                            ->password()
+                            ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                            ->dehydrated(fn (?string $state): bool => filled($state))
+                            ->revealable()
+                            ->same('password')
+                            ->required(),
+                    ])
+                    ->modalWidth(Support\Enums\MaxWidth::Medium)
+                    ->modalHeading('Update Password')
+                    ->modalDescription(fn ($record) => $record->email)
+                    ->modalAlignment(Alignment::Center)
+                    ->modalCloseButton(false)
+                    ->modalSubmitActionLabel('Submit')
+                    ->modalCancelActionLabel('Cancel'),
+
+                Actions\DeleteAction::make()
+                    ->extraAttributes(['class' => 'border-b']),
+
+                Actions\CreateAction::make()
+                    ->label('Create new user')
+                    ->url(fn (): string => static::$resource::getNavigationUrl() . '/create'),
+            ])
+                ->icon('heroicon-m-ellipsis-horizontal')
+                ->hiddenLabel()
+                ->button()
+                ->tooltip('More Actions')
+                ->color('gray'),
+        ];
+
+        return array_merge($this->getNavigationActions(), $actions);
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }
