@@ -22,16 +22,6 @@
 - 🅻 Lang Generator
 - Etc..
 
-#### Latest update
-
-##### Version: v1.15.xx
-
-- Add *opcodesio/log-viewer*
-- Add new plugins
-- Bugs fix & Improvement
-- Etc
-
-[Version Releases](https://github.com/sandeep0108/filament-starter-kit/releases)
 <!-- 
 *Sadly, Filament Multi-Tenancy will not be included in this starter kit. This repository will focus on improvements for non-multi-tenants, since many rooms should be improved.* -->
 
@@ -142,10 +132,6 @@ php artisan superduper:lang-translate en es ar fr pt-PT pt-BR zh-CN zh-TW
 php artisan superduper:lang-translate en fr --json
 ```
 
-#### Plugins
-
-These are [Filament Plugins](https://filamentphp.com/plugins) use for this project.
-
 | **Plugin**                                                                                          | **Author**                                          |
 | :-------------------------------------------------------------------------------------------------- | :-------------------------------------------------- |
 | [Filament Spatie Media Library](https://github.com/filamentphp/spatie-laravel-media-library-plugin) | [Filament Official](https://github.com/filamentphp)   |
@@ -155,7 +141,7 @@ These are [Filament Plugins](https://filamentphp.com/plugins) use for this proje
 | [Exceptions](https://github.com/bezhansalleh/filament-exceptions)                                   | [bezhansalleh](https://github.com/bezhansalleh)     |
 | [Breezy](https://github.com/jeffgreco13/filament-breezy)                                            | [jeffgreco13](https://github.com/jeffgreco13)       |
 | [Logger](https://github.com/z3d0x/filament-logger)                                                  | [z3d0x](https://github.com/z3d0x)                   |
-| [Ace Code Editor](https://github.com/sandeep0108/filament-ace-editor)                                 | [sandeep0108](https://github.com/sandeep0108)           |
+| [Ace Code Editor](https://github.com/riodwanto/filament-ace-editor)                                 | [riodwanto](https://github.com/riodwanto)           |
 | [Filament Record Navigation Plugin](https://github.com/josespinal/filament-record-navigation)       | [josespinal](https://github.com/josespinal)         |
 | [Filament media manager](https://github.com/tomatophp/filament-media-manager)                       | [tomatophp](https://github.com/tomatophp)           |
 | [Filament Menu Builder](https://github.com/datlechin/filament-menu-builder)                         | [datlechin](https://github.com/datlechin)           |
