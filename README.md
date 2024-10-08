@@ -1,9 +1,11 @@
 <div align="center">
-  <img src="https://i.postimg.cc/4djrcJXx/logo.png" alt="Starter kit logo" width="200"/>
+  <!-- <img src="https://i.postimg.cc/4djrcJXx/logo1111.png" alt="Starter kit logo" width="200"/> -->
 
-  [![Latest Version on Packagist](https://img.shields.io/packagist/v/riodwanto/superduper-filament-starter-kit.svg?style=flat-square)](https://packagist.org/packages/riodwanto/superduper-filament-starter-kit)
-  [![Laravel](https://github.com/riodwanto/superduper-filament-starter-kit/actions/workflows/laravel.yml/badge.svg)](https://github.com/riodwanto/superduper-filament-starter-kit/actions/workflows/laravel.yml)
-    [![Total Downloads](https://img.shields.io/packagist/dt/riodwanto/superduper-filament-starter-kit.svg?style=flat-square)](https://packagist.org/packages/riodwanto/superduper-filament-starter-kit)
+ <h1>Filament Starter Kit with Custom Theme</h1>
+<!-- 
+  [![Latest Version on Packagist](https://img.shields.io/packagist/v/sandeep0108/filament-starter-kit.svg?style=flat-square)](https://packagist.org/packages/sandeep0108/filament-starter-kit)
+  [![Laravel](https://github.com/sandeep0108/filament-starter-kit/actions/workflows/laravel.yml/badge.svg)](https://github.com/sandeep0108/filament-starter-kit/actions/workflows/laravel.yml)
+    [![Total Downloads](https://img.shields.io/packagist/dt/sandeep0108/filament-starter-kit.svg?style=flat-square)](https://packagist.org/packages/sandeep0108/filament-starter-kit) -->
 </div>
 
 <p align="center">
@@ -29,24 +31,24 @@
 - Bugs fix & Improvement
 - Etc
 
-[Version Releases](https://github.com/riodwanto/superduper-filament-starter-kit/releases)
+[Version Releases](https://github.com/sandeep0108/filament-starter-kit/releases)
+<!-- 
+*Sadly, Filament Multi-Tenancy will not be included in this starter kit. This repository will focus on improvements for non-multi-tenants, since many rooms should be improved.* -->
 
-*Sadly, Filament Multi-Tenancy will not be included in this starter kit. This repository will focus on improvements for non-multi-tenants, since many rooms should be improved.*
-
-<a href="https://buymeacoffee.com/riodewanto" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://buymeacoffee.com/sandeepthakkar" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 #### Getting Started
 
 Create project with this composer command:
 
 ```bash
-composer create-project riodwanto/superduper-filament-starter-kit
+composer create-project sandeep0108/filament-starter-kit
 ```
 
 Setup your env:
 
 ```bash
-cd superduper-filament-starter-kit
+cd filament-starter-kit
 cp .env.example .env
 ```
 
@@ -153,7 +155,7 @@ These are [Filament Plugins](https://filamentphp.com/plugins) use for this proje
 | [Exceptions](https://github.com/bezhansalleh/filament-exceptions)                                   | [bezhansalleh](https://github.com/bezhansalleh)     |
 | [Breezy](https://github.com/jeffgreco13/filament-breezy)                                            | [jeffgreco13](https://github.com/jeffgreco13)       |
 | [Logger](https://github.com/z3d0x/filament-logger)                                                  | [z3d0x](https://github.com/z3d0x)                   |
-| [Ace Code Editor](https://github.com/riodwanto/filament-ace-editor)                                 | [riodwanto](https://github.com/riodwanto)           |
+| [Ace Code Editor](https://github.com/sandeep0108/filament-ace-editor)                                 | [sandeep0108](https://github.com/sandeep0108)           |
 | [Filament Record Navigation Plugin](https://github.com/josespinal/filament-record-navigation)       | [josespinal](https://github.com/josespinal)         |
 | [Filament media manager](https://github.com/tomatophp/filament-media-manager)                       | [tomatophp](https://github.com/tomatophp)           |
 | [Filament Menu Builder](https://github.com/datlechin/filament-menu-builder)                         | [datlechin](https://github.com/datlechin)           |
@@ -175,4 +177,4 @@ Other recommendations for your starter, in my personal opinion:
 
 Filament Starter is provided under the [MIT License](LICENSE.md).
 
-If you discover a bug, please [open an issue](https://github.com/riodwanto/superduper-filament-starter-kit/issues).
+If you discover a bug, please [open an issue](https://github.com/sandeep0108/filament-starter-kit/issues).
